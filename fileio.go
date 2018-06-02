@@ -25,6 +25,20 @@ func openImage(path string) image.Image {
 	return img
 }
 
+func createDir(dir string) {
+	_, err := os.Stat(dir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			err = os.Mkdir(dir, 0755)
+			if err != nil {
+				os.Exit(1)
+			}
+		} else {
+			os.Exit(1)
+		}
+	}
+}
+
 func writeToFile(img image.Image, path string) {
 	f, err := os.Create(path)
 	if err != nil {

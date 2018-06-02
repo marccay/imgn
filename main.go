@@ -1,18 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"os"
+)
 
 func main() {
-	_, path, args := getArgs()
+	args := getArgs()
 	all := parseArgs(args)
 
-	fmt.Println(path)
-	fmt.Println(all)
-	/*
-		img := openImage(path)
-		pixels := readPixels(img)
-		x, y := readDimensions(img)
-		modpxls := pxlToMod(pixels)
-		execute(x, y, all, modpxls, path)
-	*/
+	img := openImage(os.Args[2])
+	pixels := readPixels(img)
+	x, y := readDimensions(img)
+	modpxls := pxlToMod(pixels)
+	execute(x, y, all, modpxls, os.Args[2])
+
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -9,10 +10,18 @@ import (
 var wg sync.WaitGroup
 
 func execute(x int, y int, groups multipleGroups, pixels allModifiedrgba, path string) {
+	fullpath, _ := filepath.Abs(path)
+	dir := filepath.Dir(fullpath)
+	ext := filepath.Ext(path)
+	base := strings.TrimSuffix(path, ext)
+	fullNewDir := filepath.Join(dir, base)
+	createDir(fullNewDir)
 	wg.Add(len(groups))
-	for _, grp := range groups {
-		go grp.initGroup(x, y, pixels, path)
-
+	for i, grp := range groups {
+		stri := strconv.FormatInt(int64(i), 10)
+		stringPath := base + "-" + stri + ext
+		newPath := filepath.Join(fullNewDir, stringPath)
+		go grp.initGroup(x, y, pixels, newPath)
 	}
 	wg.Wait()
 }
