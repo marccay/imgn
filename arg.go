@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -11,11 +12,11 @@ type group map[int]string
 type multipleGroups []group
 
 // getArgs gets raw info from given arguments
-func getArgs() map[int]string {
+func getArgs() (qnty int64, path string, flags map[int]string) {
 	args := os.Args[3:]
 	mapFlags := make(map[int]string)
 	quantity := os.Args[1]
-	qnty, _ := strconv.ParseInt(quantity, 10, 64)
+	qnty, _ = strconv.ParseInt(quantity, 10, 64)
 	for x := 0; x < int(qnty); x++ {
 		stringX := strconv.FormatInt(int64(x+1), 10)
 		for i, arg := range args {
@@ -47,7 +48,9 @@ func getArgs() map[int]string {
 		os.Exit(2)
 	}
 
-	return mapFlags
+	path = filepath.Dir(os.Args[2])
+
+	return qnty, path, mapFlags
 }
 
 func parseArgs(unpackedData map[int]string) multipleGroups {

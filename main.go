@@ -3,10 +3,16 @@ package main
 import "fmt"
 
 func main() {
-	args := getArgs()
+	_, path, args := getArgs()
 	all := parseArgs(args)
-	fmt.Println(len(all))
-	for _, x := range all {
-		fmt.Println(x)
-	}
+
+	fmt.Println(path)
+	fmt.Println(all)
+	/*
+		img := openImage(path)
+		pixels := readPixels(img)
+		x, y := readDimensions(img)
+		modpxls := pxlToMod(pixels)
+		execute(x, y, all, modpxls, path)
+	*/
 }
