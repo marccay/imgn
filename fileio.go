@@ -60,6 +60,7 @@ func stringTime() string {
 	stime := strings.Split(ttime, " ")
 	date := stime[0]
 	cclock := strings.Split(stime[1], ".")
-	clock := cclock[0]
+	sclock := strings.Split(cclock[0], ":")
+	clock := strings.Join(sclock, "-")
 	return date + "-" + clock
 }

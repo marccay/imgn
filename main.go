@@ -29,13 +29,15 @@ func main() {
 	if stat.IsDir() {
 		duplex(path, all)
 	} else {
-		omniplex(path, all)
+		omniplex(path, all, 1)
 	}
 
 }
 
-func omniplex(file string, all multipleGroups) {
-	defer bunchFiles.Done()
+func omniplex(file string, all multipleGroups, mode int) {
+	if mode == 2 {
+		defer bunchFiles.Done()
+	}
 	img := openImage(file)
 	pixels := readPixels(img)
 	x, y := readDimensions(img)
@@ -62,7 +64,7 @@ func multiplex(path string, all multipleGroups) {
 	}
 	bunchFiles.Add(len(bunchFilepaths))
 	for _, f := range bunchFilepaths {
-		go omniplex(f, all)
+		go omniplex(f, all, 2)
 	}
 	bunchFiles.Wait()
 }
@@ -84,7 +86,7 @@ func duplex(path string, all multipleGroups) {
 	bunchFiles.Add(len(bunchFilepaths))
 	for _, f := range bunchFilepaths {
 		pathy := filepath.Join(path, f)
-		go omniplex(pathy, all)
+		go omniplex(pathy, all, 2)
 	}
 	bunchFiles.Wait()
 }
