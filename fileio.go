@@ -12,7 +12,8 @@ import (
 func openImage(path string) image.Image {
 	f, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("issue opening image file")
+		os.Exit(1)
 	}
 	defer f.Close()
 
@@ -31,6 +32,7 @@ func createDir(dir string) {
 		if os.IsNotExist(err) {
 			err = os.Mkdir(dir, 0755)
 			if err != nil {
+				fmt.Println("error making output dir")
 				os.Exit(1)
 			}
 		} else {
