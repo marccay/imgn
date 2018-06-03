@@ -7,6 +7,8 @@ import (
 	"image/jpeg"
 	"log"
 	"os"
+	"strings"
+	"time"
 )
 
 func openImage(path string) image.Image {
@@ -51,4 +53,13 @@ func writeToFile(img image.Image, path string) {
 	w := bufio.NewWriter(f)
 	err = jpeg.Encode(w, img, nil)
 	w.Flush()
+}
+
+func stringTime() string {
+	ttime := time.Now().String()
+	stime := strings.Split(ttime, " ")
+	date := stime[0]
+	cclock := strings.Split(stime[1], ".")
+	clock := cclock[0]
+	return date + "-" + clock
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
@@ -26,7 +27,7 @@ func main() {
 	}
 
 	if stat.IsDir() {
-		multiplex(path, all)
+		duplex(path, all)
 	} else {
 		omniplex(path, all)
 	}
@@ -62,6 +63,28 @@ func multiplex(path string, all multipleGroups) {
 	bunchFiles.Add(len(bunchFilepaths))
 	for _, f := range bunchFilepaths {
 		go omniplex(f, all)
+	}
+	bunchFiles.Wait()
+}
+
+func duplex(path string, all multipleGroups) {
+	var bunchFilepaths []string
+	infoFiles, err := ioutil.ReadDir(path)
+	if err != nil {
+		fmt.Println("failed to acces file path")
+		os.Exit(2)
+	}
+
+	for _, info := range infoFiles {
+		if !info.IsDir() {
+			bunchFilepaths = append(bunchFilepaths, info.Name())
+		}
+	}
+
+	bunchFiles.Add(len(bunchFilepaths))
+	for _, f := range bunchFilepaths {
+		pathy := filepath.Join(path, f)
+		go omniplex(pathy, all)
 	}
 	bunchFiles.Wait()
 }

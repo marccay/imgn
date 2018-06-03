@@ -20,7 +20,7 @@ func execute(x int, y int, groups multipleGroups, pixels allModifiedrgba, path s
 	wg.Add(len(groups))
 	for i, grp := range groups {
 		stri := strconv.FormatInt(int64(i+1), 10)
-		stringPath := baseless + "-" + stri + ext
+		stringPath := baseless + "_" + stringTime() + "_" + stri + ext
 		newPath := filepath.Join(fullNewDir, stringPath)
 		go grp.initGroup(x, y, pixels, newPath)
 	}
