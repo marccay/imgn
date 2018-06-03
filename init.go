@@ -19,7 +19,7 @@ func execute(x int, y int, groups multipleGroups, pixels allModifiedrgba, path s
 	createDir(fullNewDir)
 	wg.Add(len(groups))
 	for i, grp := range groups {
-		stri := strconv.FormatInt(int64(i+1), 10)
+		stri := strconv.FormatInt(int64(i), 10)
 		stringPath := baseless + "_" + stringTime() + "_" + stri + ext
 		newPath := filepath.Join(fullNewDir, stringPath)
 		go grp.initGroup(x, y, pixels, newPath)
@@ -48,7 +48,7 @@ func (grp group) executeGroup(pixels allModifiedrgba) allModifiedrgba {
 		case "df":
 			//desaturateFormula()
 			option := "custom"
-			formula := strings.Split(opt[1], "\\")
+			formula := strings.Split(opt[1], "_")
 			// missing error !!!
 			r, _ := strconv.ParseFloat(formula[0], 64)
 			g, _ := strconv.ParseFloat(formula[1], 64)
