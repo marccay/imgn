@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -17,12 +16,11 @@ func execute(x int, y int, groups multipleGroups, pixels allModifiedrgba, path s
 	base := filepath.Base(fullpath)
 	baseless := strings.TrimSuffix(base, ext)
 	fullNewDir := filepath.Join(dir, baseless)
-	fmt.Println(fullNewDir)
 	createDir(fullNewDir)
 	wg.Add(len(groups))
 	for i, grp := range groups {
 		stri := strconv.FormatInt(int64(i+1), 10)
-		stringPath := base + "-" + stri + ext
+		stringPath := baseless + "-" + stri + ext
 		newPath := filepath.Join(fullNewDir, stringPath)
 		go grp.initGroup(x, y, pixels, newPath)
 	}
