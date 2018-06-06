@@ -15,7 +15,7 @@ batch jpeg editor on commandline
     ```
 
 ###### "c=" adjust contrast of image
-- number between -1 (reduce contrast) and 3 (increase contrast)
+- number between -1 (reduce contrast) and 2 (increase contrast)
 - number greater than 0 increases contrast
     ```
     example:
@@ -23,9 +23,18 @@ batch jpeg editor on commandline
         -n c=-0.405
     ```
 ###### "d=" desaturate image
-- luminosity      0.21 * red + 0.72 * green + 0.07 * blue
-- average         (r + g + b) / 3
-- lightness       (max + min) / 2
+- luminosity
+    ```
+    0.21 * red + 0.72 * green + 0.07 * blue
+    ```
+- average
+    ```
+    (r + g + b) / 3
+    ```
+- lightness
+    ```
+    (max + min) / 2
+    ```
     ```
     example:
         -n d=luminosity

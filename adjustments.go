@@ -10,7 +10,7 @@ func (pixels allModifiedrgba) brightness(adjustment float64) allModifiedrgba {
 	// -1 to 1 value accepted
 	if adjustment > 1 || adjustment < -1 {
 		fmt.Println("brightness adjustment value is out of bounds, choose float between -1 and 1")
-		os.Exit(1)
+		os.Exit(3)
 	}
 
 	// shade(darker) adjustment float64 more than -1
@@ -55,8 +55,8 @@ func (pixels allModifiedrgba) contrast(adjustment float64) allModifiedrgba {
 	normalized = adjustment + 1.0
 
 	if adjustment < -1.0 || adjustment > 3.0 {
-		fmt.Println("contrast adjustment value is out of bounds, choose float between 0 and 3.0")
-		os.Exit(1)
+		fmt.Println("contrast adjustment value is out of bounds, choose float between -1.0 and 2.0")
+		os.Exit(3)
 	}
 
 	// w/o factor negative is between 1 and 0, close to 0 reduce contrast
@@ -110,9 +110,14 @@ func (pixels allModifiedrgba) desaturate(shade string, custom desatFormula) allM
 func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 
+	if adjustment < 0.0 || adjustment > 0.100 {
+		fmt.Println("adjustment for highlights is out of bounds, choose a value between 0.0 and 0.100")
+		os.Exit(3)
+	}
+
 	for n, pxl := range pixels {
 		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
-			new[n].r, new[n].g, new[n].b = pxl.shade(.90)
+			new[n].r, new[n].g, new[n].b = pxl.shade(1 - adjustment)
 		} else {
 			new[n].r = pxl.r
 			new[n].g = pxl.g
