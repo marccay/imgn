@@ -51,7 +51,10 @@ func (pixel modifiedrgba) tint(adj float64) (r uint8, g uint8, b uint8) {
 func (pixels allModifiedrgba) contrast(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 
-	if adjustment < 0.0 || adjustment > 3.0 {
+	var normalized float64
+	normalized = adjustment + 1.0
+
+	if adjustment < -1.0 || adjustment > 3.0 {
 		fmt.Println("contrast adjustment value is out of bounds, choose float between 0 and 3.0")
 		os.Exit(1)
 	}
@@ -59,11 +62,11 @@ func (pixels allModifiedrgba) contrast(adjustment float64) allModifiedrgba {
 	// w/o factor negative is between 1 and 0, close to 0 reduce contrast
 	// reasonable for positive is between 1 and 3, higher num more contrast
 	for n, pxl := range pixels {
-		newr := ((adjustment * (float64(pxl.r) - 128.0)) + 128.0)
+		newr := ((normalized * (float64(pxl.r) - 128.0)) + 128.0)
 		new[n].r = toUint8(newr)
-		newg := ((adjustment * (float64(pxl.g) - 128.0)) + 128.0)
+		newg := ((normalized * (float64(pxl.g) - 128.0)) + 128.0)
 		new[n].g = toUint8(newg)
-		newb := ((adjustment * (float64(pxl.b) - 128.0)) + 128.0)
+		newb := ((normalized * (float64(pxl.b) - 128.0)) + 128.0)
 		new[n].b = toUint8(newb)
 		new[n].a = pxl.a
 	}
@@ -108,7 +111,15 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 
 	for n, pxl := range pixels {
-		new[n] = pxl.modd(0, 280)
+		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
+			new[n].r, new[n].g, new[n].b = pxl.shade(.90)
+		} else {
+			new[n].r = pxl.r
+			new[n].g = pxl.g
+			new[n].b = pxl.b
+		}
+		new[n].a = pxl.a
+
 	}
 	return new
 }

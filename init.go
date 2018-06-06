@@ -63,6 +63,9 @@ func (grp group) executeGroup(pixels allModifiedrgba) allModifiedrgba {
 			//contrast()
 			adjustment, _ := strconv.ParseFloat(opt[1], 64)
 			pixelsAdd = pixelsAdd.contrast(adjustment)
+		case "h":
+			adjustmet, _ := strconv.ParseFloat(opt[1], 64)
+			pixelsAdd = pixelsAdd.highlights(adjustmet)
 		}
 	}
 
