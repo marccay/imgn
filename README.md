@@ -5,23 +5,23 @@ batch jpeg editor on commandline
 
 ## adjustments:
 
-###### b       adjust brightness of image
-number between -1 (reduce brightness) and 1 (increase brightness)
-number greater than 0 increases brightness
+###### "b=" adjust brightness of image
+-number between -1 (reduce brightness) and 1 (increase brightness)
+-number greater than 0 increases brightness
     ```
         example:    -n b=0.204
                     -n b=-0.456
     ```
 
-###### c       adjust contrast of image
-number between -1 (reduce contrast) and 3 (increase contrast)
-number greater than 0 increases contrast
+###### "c=" adjust contrast of image
+-number between -1 (reduce contrast) and 3 (increase contrast)
+-number greater than 0 increases contrast
     ```
         example:
                     -n c=1.55
                     -n c=-0.405
     ```
-###### d       desaturate image
+###### "d=" desaturate image
 - luminosity      0.21*red + 0.72*g + 0.07*b
 - average         (r + g + b) / 3
 - lightness       (max + min) / 2
@@ -32,9 +32,9 @@ number greater than 0 increases contrast
                     -n d=lightness
     ```
 
-###### df      desaturate with custom formula
-weight*red + weight*green + weight*blue
-weights are user inputed as floats
+###### "df=" desaturate with custom formula
+-weight*red + weight*green + weight*blue
+-weights are user inputed as floats
     ```
         example:
                     -n df=[red]_[green]_[blue]
