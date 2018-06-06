@@ -7,12 +7,12 @@ batch jpeg editor on commandline
 
 ###### b       adjust brightness of image
 
-'''
+```
 number between -1 (reduce brightness) and 1 (increase brightness)
 number greater than 0 increases brightness
         example:    -n b=0.204
                     -n b=-0.456
-'''
+```
 
 c       adjust contrast of image
     :: number between -1 (reduce contrast) and 3 (increase contrast)
