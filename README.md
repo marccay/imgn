@@ -4,6 +4,7 @@ batch jpeg editor on commandline
         imgn [output quantity] [file] [-1] [adjustments] [-n] [adj1,adj2]
 
 ##adjustments:
+
 b       adjust brightness of image
     :: number between -1 (reduce brightness) and 1 (increase brightness)
     :: number greater than 0 increases brightness
