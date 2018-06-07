@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image"
 	"image/jpeg"
+	"image/png"
 	"log"
 	"os"
 	"strings"
@@ -19,10 +20,15 @@ func openImage(path string) image.Image {
 	}
 	defer f.Close()
 
-	img, err := jpeg.Decode(f)
+	var img image.Image
+	img, err = jpeg.Decode(f)
 	if err != nil {
-		fmt.Println("issue opening file, assure file is a jpeg")
-		os.Exit(1)
+		// try with png.decode if not jpeg
+		img, err = png.Decode(f)
+		if err != nil {
+			fmt.Println("issue opening file, assure file is a jpeg")
+			os.Exit(1)
+		}
 	}
 
 	return img
