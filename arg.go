@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -23,28 +23,25 @@ func getArgs() map[int]string {
 				// Error
 				// if option is cut off in ending
 				if i+1 >= len(args) {
-					fmt.Printf("not enough options described in output %d\n", x+1)
-					os.Exit(2)
+					log.Fatalf("not enough options described in output %d\n", x+1)
 				}
 				// Error
 				// if option (i+1) is next flag
 				if args[i+1][0] == 45 {
-					fmt.Printf("not enough options descripted output %d\n", x+1)
-					os.Exit(2)
+					log.Fatalf("not enough options descripted output %d\n", x+1)
+
 				}
 				mapFlags[x] = args[i+1]
 			}
 			if i == len(args) && arg != ("-"+stringX) {
-				fmt.Printf("missing options for %d\n", x)
-				os.Exit(2)
+				log.Fatalf("missing options for %d\n", x)
 			}
 		}
 	}
 	// Error
 	// quantity doesn't match given input
 	if int(qnty) != len(mapFlags) {
-		fmt.Println("given quantity does not match given options")
-		os.Exit(2)
+		log.Fatalf("given quantity does not match given options\n")
 	}
 
 	return mapFlags

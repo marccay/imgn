@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -9,8 +10,7 @@ func (pixels allModifiedrgba) brightness(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 	// -1 to 1 value accepted
 	if adjustment > 1 || adjustment < -1 {
-		fmt.Println("brightness adjustment value is out of bounds, choose float between -1 and 1")
-		os.Exit(3)
+		log.Fatalf("brightness adjustment value %v is out of bounds, choose float between -1 and 1\n", adjustment)
 	}
 
 	// shade(darker) adjustment float64 more than -1
@@ -55,8 +55,7 @@ func (pixels allModifiedrgba) contrast(adjustment float64) allModifiedrgba {
 	normalized = adjustment + 1.0
 
 	if adjustment < -1.0 || adjustment > 3.0 {
-		fmt.Println("contrast adjustment value is out of bounds, choose float between -1.0 and 2.0")
-		os.Exit(3)
+		log.Fatalf("contrast adjustment value %v is out of bounds, choose float between -1.0 and 2.0\n", adjustment)
 	}
 
 	// w/o factor negative is between 1 and 0, close to 0 reduce contrast
@@ -92,15 +91,11 @@ func (pixels allModifiedrgba) desaturate(shade string, custom desatFormula) allM
 			light := (float64(max) + float64(min)) / 2
 			gray = uint8(light)
 		} else if shade == "custom" {
-			r := custom.r
-			g := custom.g
-			b := custom.b
+			r, g, b := custom.r, custom.g, custom.b
 			cus := r*float64(pxl.r) + g*float64(pxl.g) + b*float64(pxl.b)
 			gray = uint8(cus)
 		}
-		new[n].r = gray
-		new[n].g = gray
-		new[n].b = gray
+		new[n].r, new[n].g, new[n].b = gray, gray, gray
 		new[n].a = pxl.a
 	}
 
@@ -119,9 +114,7 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
 			new[n].r, new[n].g, new[n].b = pxl.shade(1 - adjustment)
 		} else {
-			new[n].r = pxl.r
-			new[n].g = pxl.g
-			new[n].b = pxl.b
+			new[n].r, new[n].g, new[n].b = pxl.r, pxl.g, pxl.b
 		}
 		new[n].a = pxl.a
 

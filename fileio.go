@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"image"
 	"image/jpeg"
 	"image/png"
@@ -15,8 +14,7 @@ import (
 func openImage(path string) image.Image {
 	f, err := os.Open(path)
 	if err != nil {
-		fmt.Println("issue opening image file")
-		os.Exit(1)
+		log.Fatalf("issue opening image file\n%v\n", err)
 	}
 	defer f.Close()
 
@@ -26,8 +24,7 @@ func openImage(path string) image.Image {
 		// try with png.decode if not jpeg
 		img, err = png.Decode(f)
 		if err != nil {
-			fmt.Println("issue opening file, assure file is a jpeg")
-			os.Exit(1)
+			log.Fatalf("issue opening file, assure file is a jpeg or png\n%v\n", err)
 		}
 	}
 
@@ -40,8 +37,7 @@ func createDir(dir string) {
 		if os.IsNotExist(err) {
 			err = os.Mkdir(dir, 0755)
 			if err != nil {
-				fmt.Println("error making output dir")
-				os.Exit(1)
+				log.Fatalf("error making output dir\n%v\n", err)
 			}
 		} else {
 			os.Exit(1)
@@ -52,7 +48,7 @@ func createDir(dir string) {
 func writeToFile(img image.Image, path string) {
 	f, err := os.Create(path)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("error writing image.Image to file\n%v\n", err)
 	}
 	defer f.Close()
 

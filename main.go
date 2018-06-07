@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"sync"
@@ -22,8 +23,7 @@ func main() {
 
 	stat, err := os.Stat(path)
 	if err != nil {
-		fmt.Println("trouble accessing path info")
-		os.Exit(1)
+		log.Fatalf("trouble accessing path info\n")
 	}
 
 	if stat.IsDir() {
@@ -49,8 +49,7 @@ func multiplex(path string, all multipleGroups) {
 	var bunchFilepaths []string
 	err := filepath.Walk(path, func(fp string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("failed to access file path")
-			os.Exit(2)
+			log.Fatalf("failed to access file path\n")
 		}
 		if info.IsDir() {
 			return nil
@@ -59,8 +58,7 @@ func multiplex(path string, all multipleGroups) {
 		return nil
 	})
 	if err != nil {
-		fmt.Println("error walking the path")
-		os.Exit(2)
+		log.Fatalf("error walking the path\n")
 	}
 	bunchFiles.Add(len(bunchFilepaths))
 	for _, f := range bunchFilepaths {
@@ -73,8 +71,7 @@ func duplex(path string, all multipleGroups) {
 	var bunchFilepaths []string
 	infoFiles, err := ioutil.ReadDir(path)
 	if err != nil {
-		fmt.Println("failed to acces file path")
-		os.Exit(2)
+		log.Fatalf("failed to acces file path\n")
 	}
 
 	for _, info := range infoFiles {
