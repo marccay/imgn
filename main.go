@@ -12,7 +12,7 @@ import (
 var bunchFiles sync.WaitGroup
 
 func main() {
-	args := getArgs()
+	args, nested := getArgs()
 	all := parseArgs(args)
 
 	path, err := filepath.Abs(os.Args[2])
@@ -26,7 +26,7 @@ func main() {
 		log.Fatalf("trouble accessing path info\n")
 	}
 
-	if stat.IsDir() && os.Args[len(os.Args)-1] == "--train" {
+	if stat.IsDir() && nested {
 		multiplex(path, all)
 	} else if stat.IsDir() {
 		duplex(path, all)

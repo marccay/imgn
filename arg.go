@@ -11,9 +11,11 @@ type group map[int]string
 type multipleGroups []group
 
 // getArgs gets raw info from given arguments
-func getArgs() map[int]string {
+func getArgs() (arguments map[int]string, nested bool) {
 	args := os.Args[3:]
 	mapFlags := make(map[int]string)
+	//default of nested
+	nested = false
 	quantity := os.Args[1]
 	qnty, _ := strconv.ParseInt(quantity, 10, 64)
 	for x := 0; x < int(qnty); x++ {
@@ -36,6 +38,9 @@ func getArgs() map[int]string {
 			if i == len(args) && arg != ("-"+stringX) {
 				log.Fatalf("missing options for %d\n", x)
 			}
+			if arg == "--train" {
+				nested = true
+			}
 		}
 	}
 	// Error
@@ -44,7 +49,7 @@ func getArgs() map[int]string {
 		log.Fatalf("given quantity does not match given options\n")
 	}
 
-	return mapFlags
+	return mapFlags, nested
 }
 
 func parseArgs(unpackedData map[int]string) multipleGroups {
