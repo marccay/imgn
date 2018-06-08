@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"os"
 )
 
 func (pixels allModifiedrgba) brightness(adjustment float64) allModifiedrgba {
@@ -106,8 +104,7 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 
 	if adjustment < 0.0 || adjustment > 0.100 {
-		fmt.Println("adjustment for highlights is out of bounds, choose a value between 0.0 and 0.100")
-		os.Exit(3)
+		log.Fatalf("adjustment for highlights is out of bounds, choose a value between 0.0 and 0.100")
 	}
 
 	for n, pxl := range pixels {
@@ -118,6 +115,24 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 		}
 		new[n].a = pxl.a
 
+	}
+	return new
+}
+
+func (pixels allModifiedrgba) shadows(adjustment float64) allModifiedrgba {
+	new := make(allModifiedrgba, len(pixels))
+
+	if adjustment < 0.0 || adjustment > 0.1000 {
+		log.Fatalf("adjustment for shadows is out of bounds, choose a value between 0.0 and 0.100")
+	}
+
+	for n, pxl := range pixels {
+		if pxl.r < 10 && pxl.g < 10 && pxl.b < 10 {
+			new[n].r, new[n].g, new[n].b = pxl.tint(adjustment)
+		} else {
+			new[n].r, new[n].g, new[n].b = pxl.r, pxl.g, pxl.b
+		}
+		new[n].a = pxl.a
 	}
 	return new
 }
