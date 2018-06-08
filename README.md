@@ -1,7 +1,16 @@
 # imgn
 batch jpeg editor on commandline
 
-        imgn [output quantity] [file] [-1] [adjustments] [-n] [adj1,adj2]
+        imgn [output quantity] [file / folder] [--options] [-1] [adjustments] [-n] [adj1,adj2]
+
+## options:
+
+###### "--train"
+- include all images inside nested folders to be processed
+    '''
+    example:
+        imgn -4 /home/folder/ --train -1 d=lightness...
+    '''
 
 ## adjustments:
 
