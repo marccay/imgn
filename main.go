@@ -26,7 +26,7 @@ func main() {
 		log.Fatalf("trouble accessing path info\n")
 	}
 
-	if stat.IsDir() && os.Args[len(os.Args)] == "--train" {
+	if stat.IsDir() && os.Args[len(os.Args)-1] == "--train" {
 		multiplex(path, all)
 	} else if stat.IsDir() {
 		duplex(path, all)
