@@ -100,32 +100,11 @@ func (pixels allModifiedrgba) desaturate(shade string, custom desatFormula) allM
 	return new
 }
 
-/*
 func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
-
-	if adjustment < 0.0 || adjustment > 0.100 {
-		log.Fatalf("adjustment for highlights is out of bounds, choose a value between 0.0 and 0.100")
-	}
-
+	b := uint8(240)
 	for n, pxl := range pixels {
-		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
-			new[n].r, new[n].g, new[n].b = pxl.shade(1 - adjustment)
-		} else {
-			new[n].r, new[n].g, new[n].b = pxl.r, pxl.g, pxl.b
-		}
-		new[n].a = pxl.a
-
-	}
-	return new
-}
-*/
-
-func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
-	new := make(allModifiedrgba, len(pixels))
-
-	for n, pxl := range pixels {
-		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
+		if pxl.r > b && pxl.g > b && pxl.b > b {
 			new[n].r = reduceHighlights(pxl.r, adjustment)
 			new[n].g = reduceHighlights(pxl.g, adjustment)
 			new[n].b = reduceHighlights(pxl.b, adjustment)
@@ -138,8 +117,9 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 }
 
 func reduceHighlights(color uint8, adjustment float64) uint8 {
-	delta := (float64(color) - 245.0) / 10.0
-	new := float64(color) - (delta * 10.0 * adjustment)
+	b := 240.0
+	delta := (float64(color) - b) / (100.0 / (255.0 - b))
+	new := float64(color) - (delta * (255.0 - b) * adjustment)
 	return uint8(new)
 }
 
