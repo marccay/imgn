@@ -100,6 +100,7 @@ func (pixels allModifiedrgba) desaturate(shade string, custom desatFormula) allM
 	return new
 }
 
+/*
 func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 	new := make(allModifiedrgba, len(pixels))
 
@@ -117,6 +118,29 @@ func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
 
 	}
 	return new
+}
+*/
+
+func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
+	new := make(allModifiedrgba, len(pixels))
+
+	for n, pxl := range pixels {
+		if pxl.r > 245 && pxl.g > 245 && pxl.b > 245 {
+			new[n].r = reduceHighlights(pxl.r, adjustment)
+			new[n].g = reduceHighlights(pxl.g, adjustment)
+			new[n].b = reduceHighlights(pxl.b, adjustment)
+		} else {
+			new[n].r, new[n].g, new[n].b = pxl.r, pxl.g, pxl.b
+		}
+		new[n].a = pxl.a
+	}
+	return new
+}
+
+func reduceHighlights(color uint8, adjustment float64) uint8 {
+	delta := (float64(color) - 245.0) / 10.0
+	new := float64(color) - (delta * 10.0 * adjustment)
+	return uint8(new)
 }
 
 func (pixels allModifiedrgba) shadows(adjustment float64) allModifiedrgba {
