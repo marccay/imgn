@@ -77,7 +77,7 @@ batch jpeg editor on commandline
     ```
 
 ###### "bx=" border
-- [border pixel size]_[r]_[g]_[b]
+- [border pixel size] _ [r] _ [g] _ [b]
 - r, b, b values between 0 and 255
     ```
     example:
