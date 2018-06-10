@@ -59,3 +59,29 @@ batch jpeg editor on commandline
         -n df=[red]_[green]_[blue]
         -n df=0.20_0.70_0.10
     ```
+
+###### "h=" highlight recovery
+- a number between 0 and 1
+- a higher number (closer to 1) recovers more highlights
+    ```
+    example:
+        -n h=0.502
+    ```
+
+###### "s=" shadow recovery
+- a number between 0 and 1
+- a higher number (closer to 1) recovers more shadow
+    ```
+    example:
+        -n s=0.880
+    ```
+
+###### "bx=" border
+- [border pixel size]_[r]_[g]_[b]
+- r, b, b values between 0 and 255
+    ```
+    example:
+        -n bx=200 (default black border)
+        -n bx=200_255_255_255 (white border)
+        -n bx=200_255_50_50     
+    ```

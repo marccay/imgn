@@ -101,7 +101,10 @@ func (pixels allModifiedrgba) desaturate(shade string, custom desatFormula) allM
 }
 
 func (pixels allModifiedrgba) highlights(adjustment float64) allModifiedrgba {
-	// error here
+	if adjustment > 1.0 || adjustment < 0.0 {
+		log.Fatalf("highlights recovery value %v is out of bounds. Choose a number between 0 and 1", adjustment)
+	}
+
 	new := make(allModifiedrgba, len(pixels))
 	b := uint8(240)
 	for n, pxl := range pixels {
@@ -125,7 +128,9 @@ func reduceHighlights(color uint8, adjustment float64) uint8 {
 }
 
 func (pixels allModifiedrgba) shadows(adjustment float64) allModifiedrgba {
-	// error here
+	if adjustment > 1.0 || adjustment < 0.0 {
+		log.Fatalf("shadow recovery value %v is out of bounds. Choose a number between 0 and 1", adjustment)
+	}
 	new := make(allModifiedrgba, len(pixels))
 	b := uint8(20)
 	for n, pxl := range pixels {
