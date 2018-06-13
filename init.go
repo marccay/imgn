@@ -86,7 +86,19 @@ func (grp group) executeGroup(x int, y int, pixels allModifiedrgba) (int, int, a
 				rgb := modifiedrgba{uint8(r), uint8(g), uint8(b), 255}
 				nx, ny, pixelsAdd = pixelsAdd.border(nx, ny, int(borderWidth), rgb)
 			}
-
+		case "bxp":
+			//borderPercentage()
+			borderOptions := strings.Split(opt[1], "_")
+			borderPercentage, _ := strconv.ParseFloat(borderOptions[0], 64)
+			if len(borderOptions) == 1 {
+				nx, ny, pixelsAdd = pixelsAdd.borderPercent(nx, ny, borderPercentage, modifiedrgba{0, 0, 0, 0})
+			} else if len(borderOptions) == 4 {
+				r, _ := strconv.ParseUint(borderOptions[1], 10, 8)
+				g, _ := strconv.ParseUint(borderOptions[2], 10, 8)
+				b, _ := strconv.ParseUint(borderOptions[3], 10, 8)
+				rgb := modifiedrgba{uint8(r), uint8(g), uint8(b), 255}
+				nx, ny, pixelsAdd = pixelsAdd.borderPercent(nx, ny, borderPercentage, rgb)
+			}
 		}
 	}
 
